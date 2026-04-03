@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Haris Handiyana</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Free Website Template" name="keywords">
+        <meta content="Free Website Template" name="description">
+
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@400;700&family=Poppins&display=swap" rel="stylesheet"> 
+
+        <!-- Font Awesome -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="css/style.css" rel="stylesheet">
+
+        <!-- ============================================
+             PORTFOLIO STYLES - FIXED NO SHAKING
+             ============================================ -->
+        <style>
+            /* Portfolio Filter Buttons */
+            #portfolio-flters {
+                padding: 0;
+                margin: 0;
+                list-style: none;
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            #portfolio-flters li {
+                cursor: pointer;
+                transition: all 0.3s ease;
+                padding: 8px 20px;
+                border-radius: 4px;
+                margin-bottom: 5px;
+            }
+            
+            #portfolio-flters li:hover,
+            #portfolio-flters li.active {
+                background-color: #007bff;
+                color: #fff;
+                border-color: #007bff;
+            }
+            
+            /* ============================================
+               CRITICAL FIX: PREVENT INITIAL SHAKING
+               ============================================ */
+            
+            /* Hide portfolio items initially */
+            .portfolio-container {
+                position: relative;
+            }
+            
+            .portfolio-item {
+                /* NO transition until Isotope is ready */
+                transition: none !important;
+                opacity: 0;
+                visibility: hidden;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            
+            /* After Isotope initializes, show items smoothly */
+            .portfolio-container.isotope-ready .portfolio-item {
+                transition: opacity 0.4s ease, transform 0.4s ease;
+                opacity: 1;
+                visibility: visible;
+                position: relative;
+                left: auto;
+                top: auto;
+            }
+            
+            /* Items hidden by filter */
+            .portfolio-container.isotope-ready .isotope-hidden {
+                opacity: 0 !important;
+                transform: scale(0.8) !important;
+                visibility: hidden !important;
+                position: absolute !important;
+                pointer-events: none;
+            }
+            
+            /* Portfolio Image Container */
+            .portfolio-item .position-relative {
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            
+            .portfolio-item .position-relative:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            }
+            
+            .portfolio-item img {
+                width: 100%;
+                height: 250px;
+                object-fit: cover;
+                transition: transform 0.5s ease;
+            }
+            
+            .portfolio-item .position-relative:hover img {
+                transform: scale(1.1);
+            }
+            
+            /* Portfolio Overlay Button */
+            .portfolio-btn {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 123, 255, 0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            .portfolio-item .position-relative:hover .portfolio-btn {
+                opacity: 1;
+            }
+            
+            .portfolio-btn a {
+                color: white;
+                text-decoration: none;
+                transition: transform 0.3s ease;
+            }
+            
+            .portfolio-btn a:hover {
+                transform: scale(1.2);
+            }
+            
+            /* Portfolio Title */
+            .portfolio-title {
+                padding: 15px;
+                text-align: center;
+                background: #fff;
+                border-radius: 0 0 8px 8px;
+            }
+            
+            .portfolio-title h6 {
+                margin: 0;
+                font-weight: 600;
+                color: #333;
+            }
+            
+            .portfolio-title small {
+                color: #6c757d;
+            }
+            
+            /* Loading & No Results */
+            .portfolio-loading,
+            .portfolio-no-results {
+                text-align: center;
+                padding: 50px;
+                display: none;
+            }
+            
+            .portfolio-loading.show {
+                display: block;
+            }
+            
+            .portfolio-loading i {
+                font-size: 40px;
+                animation: spin 1s linear infinite;
+                color: #007bff;
+            }
+            
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            
+            .portfolio-no-results.show {
+                display: block;
+                color: #6c757d;
+            }
+            
+            .portfolio-no-results i {
+                font-size: 60px;
+                margin-bottom: 15px;
+                color: #dee2e6;
+            }
+        </style>
+    </head>
+
+    <body data-spy="scroll" data-target=".navbar" data-offset="51">
+        <div class="wrapper">
+            <div class="sidebar">
+                <div class="sidebar-text d-flex flex-column h-100 justify-content-center text-center">
+                    <img class="w-100 img-fluid mb-4" src="img/foto.jpg" alt="Image" style="border-radius: 25px;">
+                    <h1 class="mt-2">Haris Handiyana</h1>
+                    <div class="mb-4" style="height: 22px;">
+                        <h4 class="typed-text-output d-inline-block text-body"></h4>
+                        <div class="typed-text d-none">Fullstack Developer, Web Developer, Front End Developer</div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-center mt-auto mb-3">
+                       
+                        <a class="mx-2" href="https://www.linkedin.com/in/haris-handiyana-970944305" ><i class="fab fa-linkedin-in" ></i></a>
+                        <a class="mx-2" href="https://www.instagram.com/harishndyn/"><i class="fab fa-instagram"></i></a>
+                        <a class="mx-2" href="https://wa.me/6289524369246"><i class="fab fa-whatsapp"></i></a>
+                        <a class="mx-2" href="https://github.com/harishanidyanaaaaa?tab=repositories"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="sidebar-icon d-flex flex-column h-100 justify-content-center text-right">
+                    <i class="fas fa-2x fa-angle-double-right text-primary"></i>
+                </div>
+            </div>
+            
+            <div class="content">
+                <!-- About Start -->
+                <div class="container bg-white py-5">
+                    <div class="row px-3">
+                        <div class="col-12">
+                            <h2 class="title position-relative pb-2 mb-4">About Me</h2>
+                        </div>
+                        <div class="col-12">
+                            <p>A full stack website developer with 4 years of experience. I am a confident, agile, honest, tenacious, and detail-oriented professional. I can work effectively with teams and always comply with existing regulations. I am very thorough and skilled at operating various IT support platforms and have the ability to convey messages clearly and responsibly.</p>
+                            <div class="row">
+                                <div class="col-sm-6 py-1">
+                                    <h5 class="d-inline text-primary">Name:</h5> Haris Handiyana
+                                </div>
+                                <div class="col-sm-6 py-1">
+                                    <h5 class="d-inline text-primary">Birthday:</h5> 25 April 2002
+                                </div>
+                                <div class="col-sm-6 py-1">
+                                    <h5 class="d-inline text-primary">Degree:</h5> Associate Degree in Informatics Engineering, GPA: 3,41
+                                </div>
+                                <div class="col-sm-6 py-1">
+                                    <h5 class="d-inline text-primary">Experience:</h5> 4 Years
+                                </div>
+                                <div class="col-sm-6 py-1">
+                                    <h5 class="d-inline text-primary">Phone / WhatsApp:</h5> +6289524369246
+                                </div>
+                                <div class="col-sm-6 py-1">
+                                    <h5 class="d-inline text-primary">Email:</h5> harishandiyana2@gmail.com
+                                </div>
+                                <div class="col-sm-6 py-1">
+                                    <h5 class="d-inline text-primary">Address:</h5> Katapang Wetan, Bandung, Indonesia
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- About End -->
+
+                <!-- Skills Start -->
+                <div class="container bg-white py-5">
+                    <div class="row px-3">
+                        <div class="col-12">
+                            <h2 class="title position-relative pb-2 mb-4">FrontEnd Skills</h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/html.png" alt="Image" style="width: 50px;">HTML</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/css.png" alt="Image" style="width: 50px;"> CSS</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/bootstrap.png" alt="Image" style="width: 50px;"> Bootstrap Css</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/tail.png" alt="Image" style="width: 50px;"> Tailwind CSS</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/JavaScript.png" alt="Image" style="width: 50px;"> JavaScript</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/Vue.js.png" alt="Image" style="width: 50px;"> Vue Js</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/React.png" alt="Image" style="width: 50px;"> React Js</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/Node.js.png" alt="Image" style="width: 50px;"> Node Js</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row px-3">
+                        <div class="col-12">
+                            <h2 class="title position-relative pb-2 mb-4">BackEnd & Database Skills</h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/PHP.png" alt="Image" style="width: 50px;">PHP</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/Laravel.png" alt="Image" style="width: 50px;"> Laravel</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/CodeIgniter.png" alt="Image" style="width: 50px;"> CodeIgniter 3 & 4</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/PostgresSQL.png" alt="Image" style="width: 50px;"> Postgresql</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/MySQL.png" alt="Image" style="width: 50px;"> MySQL</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/SQLite.png" alt="Image" style="width: 50px;"> SQLite</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/mariadb.png" alt="Image" style="width: 50px;"> Maria DB</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/mysqlworkbench_93532.png" alt="Image" style="width: 50px;"> MySQL Workbench</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row px-3">
+                        <div class="col-12">
+                            <h2 class="title position-relative pb-2 mb-4">Tool Use</h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/Visual Studio Code (VS Code).png" alt="Image" style="width: 50px;"> Visual Studio Code</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/GitHub.png" alt="Image" style="width: 50px;"> Github</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/GitLab.png" alt="Image" style="width: 50px;"> Gitlab</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/Trello.png" alt="Image" style="width: 50px;"> Trello</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/629e24f2974c5f2c1ceaa620.png" alt="Image" style="width: 50px;"> ClickUp</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/figma.png" alt="Image" style="width: 50px;"> Figma</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row px-3">
+                        <div class="col-12">
+                            <h2 class="title position-relative pb-2 mb-4">Microsoft Skills</h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/word.png" alt="Image" style="width: 50px;"> Microsoft Word</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/logo.png" alt="Image" style="width: 50px;"> Microsoft Excel</p>
+                                </div>
+                            </div>
+                            <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/logo(1).png" alt="Image" style="width: 50px;"> Microsoft PowerPoint</p>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                         <div class="col-sm-6">
+                           <div class="skill mb-4">
+                                <div class="d-flex justify-content-between">
+                                    <p class="mb-2"><img src="img/microsoft-access.png" alt="Image" style="width: 50px;"> Microsoft Access</p>
+                                </div>
+                            </div>
+                          
+                           
+                          
+                        </div>
+                    </div>
+                </div>
+                <!-- Skills End -->
+
+                <!-- Experience Start -->
+                <div class="container bg-white py-5">
+                    <div class="row px-3">
+                        <div class="col-12">
+                            <h2 class="title position-relative pb-2 mb-4">Experience</h2>
+                        </div>
+                        <div class="col-12">
+                            <div class="border-left border-primary pt-2 pl-4 ml-2">
+                                <div class="position-relative mb-4">
+                                    <i class="fa fa-arrow-right text-primary position-absolute" style="top: 3px; left: -24px;"></i>
+                                    <h5 class="mb-1">Fullstack Web Developer</h5>
+                                    <p class="mb-2">Pt Kimia Farma Tbk Banjaran | <label>2022 - 2024</label></p>
+
+                                    <p>I'm building a complex web application using a combination of cutting-edge technologies. This application will have a robust and structured back-end using Laravel, a popular PHP framework. For the front-end, I'm using Vue.js, a JavaScript library that enables the creation of interactive and dynamic user interfaces. For styling, I'm leveraging the power of two CSS frameworks: Bootstrap CSS for ease of use and consistency, and Tailwind CSS for greater flexibility and design control.</p>
+                                </div>
+                                <div class="position-relative mb-4">
+                                    <i class="fa fa-arrow-right text-primary position-absolute" style="top: 3px; left: -24px;"></i>
+                                    <h5 class="mb-1">Fullstack Web Developer</h5>
+                                    <p class="mb-2">PT POP STAR | <label>2024 - now</label></p>
+                                    
+                                    <p>Designed a PostgreSQL database schema to handle complex master data (Material, Vendor, Bill of Materials), supporting fast queries for real-time reporting. Created custom reports and interactive dashboards used by the C-Level for data-driven decision-making, improving real-time Supply Chain visibility.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container bg-white py-5">
+                    <div class="row px-3">
+                        <div class="col-12">
+                            <h2 class="title position-relative pb-2 mb-4">Education</h2>
+                        </div>
+                        <div class="col-12">
+                            <div class="border-left border-primary pt-2 pl-4 ml-2">
+                                <div class="position-relative mb-4">
+                                    <i class="fa fa-arrow-right text-primary position-absolute" style="top: 3px; left: -24px;"></i>
+                                    <h5 class="mb-1">Diploma of Informatics Engineering</h5>
+                                    <p class="mb-2">STMIK Mardira Indonesia | <label>2020 - 2023</label></p>
+
+                                    <p>Final Project : <br>The theme of my final assignment is the technical division's goods management system, where this application manages all activities, whether borrowing goods or returning goods, conducting audit trails on a scale and harmonizing physical goods and websites.</p>
+                                </div>
+                                <div class="position-relative mb-4">
+                                    <i class="fa fa-arrow-right text-primary position-absolute" style="top: 3px; left: -24px;"></i>
+                                    <h5 class="mb-1">software engineering</h5>
+                                    <p class="mb-2">Vocational School Of Marhamah Hasanah | <label>2017 - 2020</label></p>
+
+                                    <p>Final Project : <br>The theme of my final high school assignment is new student admissions, where this application manages the registration of prospective new students and manages all academic information that will be conveyed to students.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Experience End -->
+   <div class="container bg-white py-5">
+                    <div class="row px-3">
+                        <div class="col-12">
+                            <h2 class="title position-relative pb-2 mb-4">Personal Projects</h2>
+                        </div>
+                        <div class="col-12">
+                            <div class="border-left border-primary pt-2 pl-4 ml-2">
+                                <div class="position-relative mb-4">
+                                    <i class="fa fa-arrow-right text-primary position-absolute" style="top: 3px; left: -24px;"></i>
+                                    <h5 class="mb-1">Supply Chain Management System  & Inventory System</h5>
+                                    
+                                    <p>
+A comprehensive enterprise solution designed to digitize and optimize the end-to-end supply chain process, specifically tailored for the manufacturing and garment industry.</p>
+                                </div>
+                                <div class="position-relative mb-4">
+                                    <i class="fa fa-arrow-right text-primary position-absolute" style="top: 3px; left: -24px;"></i>
+                                    <h5 class="mb-1">Coffee Shop Digital Ordering System</h5>
+                                    
+                                    <p>A comprehensive web application designed to streamline the ordering process, from menu selection to secure payment integration.</p>
+                                </div>
+                                <div class="position-relative mb-4">
+                                    <i class="fa fa-arrow-right text-primary position-absolute" style="top: 3px; left: -24px;"></i>
+                                    <h5 class="mb-1">Automated Student Assessment System</h5>
+                                   
+                                    <p>A web-based platform designed to automate the academic evaluation process, enabling teachers to manage exams and generate student reports efficiently.</p>
+                                </div>
+                                <div class="position-relative mb-4">
+                                    <i class="fa fa-arrow-right text-primary position-absolute" style="top: 3px; left: -24px;"></i>
+                                    <h5 class="mb-1">Purchase Order Management System</h5>
+                                   
+                                    <p>A specialized web application designed to automate the procurement lifecycle, from requisition and approval to item tracking and final purchase order generation.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Services Start -->
+                <div class="container bg-white pt-5 pb-3">
+                    <div class="row px-3">
+                        <div class="col-12">
+                            <h2 class="title position-relative pb-2 mb-4">Services</h2>
+                        </div>
+                        <div class="col-md-6 service-item text-center mb-3">
+                            <i class="fa fa-2x fa-laptop-code mx-auto mb-4"></i>
+                            <h5 class="mb-2">Web Development (Fullstack)</h5>
+                            <p>Building robust, scalable, and high-performance web applications from scratch. I specialize in modern technologies like Vue.js, React, and Laravel to deliver seamless user experiences and powerful backend functionality</p>
+                        </div>
+                        <div class="col-md-6 service-item text-center mb-3">
+                            <img src="img/database-management.png" alt="Image" style="width: 75px; margin-bottom: 22px;">
+                            <h5 class="mb-2">Database Design & Management</h5>
+                            <p>Expert in designing and optimizing complex database architectures using PostgreSQL and MySQL. I focus on data integrity, efficient queries, and building systems that can handle large-scale information reliably.</p>
+                        </div>
+                        <div class="col-md-6 service-item text-center mb-3">
+                            <i class="fa fa-2x fa-search mx-auto mb-4"></i>
+                            <h5 class="mb-2">Custom Enterprise Solutions</h5>
+                            <p>Developing tailored management systems, such as Supply Chain Management (SCM) and inventory tools. I help businesses streamline their operations through automated stock tracking, shipment monitoring, and integrated reporting.</p>
+                        </div>
+                    </div>
+                </div>
+         
+                <!-- Services End -->
+
+                <!-- ============================================
+                     PORTFOLIO START - NO SHAKING VERSION
+                     ============================================ -->
+                <div class="container bg-white pt-5 pb-5" id="portfolio-section">
+                    <div class="row px-3">
+                        <div class="col-12">
+                            <h2 class="title position-relative pb-2 mb-4">Portfolio</h2>
+                        </div>
+                        
+                        <!-- Portfolio Filter Buttons -->
+                        <div class="col-12 text-center mb-4">
+                            <ul class="list-inline" id="portfolio-flters">
+                               
+                              
+                            </ul>
+                        </div>
+                        
+                        <!-- Loading Indicator -->
+                        <div class="col-12 portfolio-loading" id="portfolio-loading">
+                            <i class="fas fa-spinner"></i>
+                            <p class="mt-2">Loading portfolio...</p>
+                        </div>
+                        
+                        <!-- No Results Message -->
+                        <div class="col-12 portfolio-no-results" id="portfolio-no-results">
+                            <i class="fas fa-folder-open d-block"></i>
+                            <h5>No items found</h5>
+                            <p>Try selecting a different filter category</p>
+                        </div>
+                        
+                        <!-- Portfolio Container - NOTE: NO isotope-ready class initially -->
+                        <div class="col-12">
+                            <div class="row portfolio-container" id="portfolio-container">
+                                
+                                <!-- Portfolio Item 1 - Design -->
+                                <div class="col-lg-6 col-md-6 mb-4 portfolio-item first">
+                                    <div class="position-relative overflow-hidden">
+                                        <img class="img-fluid w-100" src="img/ticket.png" alt="Portfolio Item 1">
+                                        <div class="portfolio-btn d-flex align-items-center justify-content-center">
+                                            <a href="img/ticket.png" data-lightbox="portfolio" data-title="E - Ticketing System">
+                                                <i class="fa fa-4x fa-plus text-white"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="portfolio-title">
+                                        <h6>E - Ticketing System</h6>
+                                     
+                                    </div>
+                                </div>
+                                
+                                <!-- Portfolio Item 2 - Development -->
+                                <div class="col-lg-6 col-md-6 mb-4 portfolio-item second">
+                                    <div class="position-relative overflow-hidden">
+                                        <img class="img-fluid w-100" src="img/image2.png" alt="Portfolio Item 2">
+                                        <div class="portfolio-btn d-flex align-items-center justify-content-center">
+                                            <a href="img/image2.png" data-lightbox="portfolio" data-title="Supply Chain Management">
+                                                <i class="fa fa-4x fa-plus text-white"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="portfolio-title">
+                                        <h6>Supply Chain Management</h6>
+                                      
+                                    </div>
+                                </div>
+                                
+                                <!-- Portfolio Item 3 - Design -->
+                                <div class="col-lg-6 col-md-6 mb-4 portfolio-item first">
+                                    <div class="position-relative overflow-hidden">
+                                        <img class="img-fluid w-100" src="img/peminjaman.png" alt="Portfolio Item 3">
+                                        <div class="portfolio-btn d-flex align-items-center justify-content-center">
+                                            <a href="img/peminjaman.png" data-lightbox="portfolio" data-title="Peminjaman Barang">
+                                                <i class="fa fa-4x fa-plus text-white"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="portfolio-title">
+                                        <h6>Inventory Loan Application</h6>
+                                      
+                                    </div>
+                                </div>
+                                
+                                <!-- Portfolio Item 4 - Development -->
+                                <div class="col-lg-6 col-md-6 mb-4 portfolio-item second">
+                                    <div class="position-relative overflow-hidden">
+                                        <img class="img-fluid w-100" src="img/Screenshot 2026-04-02 at 09-56-26 Revision Monitoring Electronic Batch Record - PT. Kimia Farma Plant Banjaran.png" alt="Portfolio Item 4">
+                                        <div class="portfolio-btn d-flex align-items-center justify-content-center">
+                                            <a href="img/Screenshot 2026-04-02 at 09-56-26 Revision Monitoring Electronic Batch Record - PT. Kimia Farma Plant Banjaran.png" data-lightbox="portfolio" data-title="Monitoring Of Production">
+                                                <i class="fa fa-4x fa-plus text-white"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="portfolio-title">
+                                        <h6>Monitoring Of Production</h6>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 mb-4 portfolio-item second">
+                                    <div class="position-relative overflow-hidden">
+                                        <img class="img-fluid w-100" src="img/Screenshot 2026-04-02 at 10-21-48 Data Detail Anda.png" alt="Portfolio Item 4">
+                                        <div class="portfolio-btn d-flex align-items-center justify-content-center">
+                                            <a href="img/Screenshot 2026-04-02 at 10-21-48 Data Detail Anda.png" data-lightbox="portfolio" data-title="Purchase Order Management">
+                                                <i class="fa fa-4x fa-plus text-white"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="portfolio-title">
+                                        <h6>Purchase Order Management</h6>
+                                       
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PORTFOLIO END -->
+
+                <!-- Footer Start -->
+                <div class="container-fluid bg-white pt-5 px-0">
+                    <div class="container bg-dark text-light text-center py-5">
+                        <div class="d-flex justify-content-center mb-4">
+                           
+                            <a class="btn btn-outline-primary btn-square mr-2" href="https://www.linkedin.com/in/haris-handiyana-970944305"><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-outline-primary btn-square" href="https://www.instagram.com/harishndyn/"><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-outline-primary btn-square" href="https://wa.me/6289524369246"><i class="fab fa-whatsapp"></i></a>
+                            <a class="btn btn-outline-primary btn-square" href="https://github.com/harishanidyanaaaaa?tab=repositories"><i class="fab fa-github"></i></a>
+                        </div>
+                       
+                        <p class="m-0">&copy; All Rights Reserved. Designed by Haris Handiyana</a></p>
+                    </div>
+                </div>
+                <!-- Footer End -->
+            </div>
+        </div>
+        
+        <!-- Back to Top -->
+        <a href="#" class="back-to-top"><i class="fa fa-angle-double-up"></i></a>
+        
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/typed/typed.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="lib/isotope/isotope.pkgd.min.js"></script>
+        <script src="lib/lightbox/js/lightbox.min.js"></script>
+
+        <!-- ============================================
+             PORTFOLIO JAVASCRIPT - NO SHAKING VERSION
+             ============================================ -->
+        <script>
+        (function($) {
+            "use strict";
+            
+            $(document).ready(function() {
+                
+                // Variables
+                var $container = $('#portfolio-container');
+                var $items = $container.find('.portfolio-item');
+                var $buttons = $('#portfolio-flters li');
+                var $loading = $('#portfolio-loading');
+                var $noResults = $('#portfolio-no-results');
+                var isotopeInstance = null;
+                
+                // ============================================
+                // INIT PORTFOLIO - NO SHAKING APPROACH
+                // ============================================
+                
+                function initPortfolio() {
+                    // Show loading
+                    $loading.addClass('show');
+                    
+                    // Wait a frame for DOM to settle
+                    requestAnimationFrame(function() {
+                        setTimeout(function() {
+                            
+                            if (typeof $.fn.isotope !== 'undefined') {
+                                try {
+                                    // Initialize Isotope with TRANSITIONS DISABLED
+                                    isotopeInstance = $container.isotope({
+                                        itemSelector: '.portfolio-item',
+                                        layoutMode: 'fitRows',
+                                        percentPosition: true,
+                                        transitionDuration: 0,  // KEY FIX: No initial transition
+                                        stagger: 0,            // KEY FIX: No stagger
+                                        hiddenStyle: {
+                                            opacity: 0,
+                                            transform: 'scale(0.8)'
+                                        },
+                                        visibleStyle: {
+                                            opacity: 1,
+                                            transform: 'scale(1)'
+                                        }
+                                    });
+                                    
+                                    // Wait for layout to complete
+                                    setTimeout(function() {
+                                        // NOW enable transitions for future filter clicks
+                                        $container.isotope('option', {
+                                            transitionDuration: '0.5s',
+                                            stagger: 20
+                                        });
+                                        
+                                        // Mark as ready - this triggers CSS to show items
+                                        $container.addClass('isotope-ready');
+                                        
+                                        // Hide loading
+                                        $loading.removeClass('show');
+                                        
+                                        console.log('✓ Portfolio initialized without shaking');
+                                        
+                                    }, 100);
+                                    
+                                } catch(error) {
+                                    console.error('Isotope error:', error);
+                                    useFallback();
+                                }
+                            } else {
+                                console.warn('Isotope not loaded');
+                                useFallback();
+                            }
+                            
+                        }, 50);  // Small delay to ensure DOM is stable
+                    });
+                }
+                
+                // ============================================
+                // FILTER CLICK HANDLER
+                // ============================================
+                
+                $buttons.on('click', function() {
+                    var filterValue = $(this).attr('data-filter');
+                    
+                    // Update active button
+                    $buttons.removeClass('active');
+                    $(this).addClass('active');
+                    
+                    // Apply filter
+                    if (isotopeInstance) {
+                        try {
+                            $container.isotope({ filter: filterValue });
+                            
+                            // Check for no results
+                            setTimeout(function() {
+                                var visibleCount = $container.find('.portfolio-item:not(.isotope-hidden)').length;
+                                if (visibleCount === 0) {
+                                    $noResults.addClass('show');
+                                } else {
+                                    $noResults.removeClass('show');
+                                }
+                            }, 600);
+                            
+                        } catch(error) {
+                            console.error('Filter error:', error);
+                            fallbackFilter(filterValue);
+                        }
+                    } else {
+                        fallbackFilter(filterValue);
+                    }
+                });
+                
+                // ============================================
+                // FALLBACK FILTER (if Isotope fails)
+                // ============================================
+                
+                function useFallback() {
+                    // Show items immediately without Isotope
+                    $items.css({
+                        'opacity': '1',
+                        'visibility': 'visible',
+                        'position': 'relative',
+                        'left': 'auto',
+                        'top': 'auto',
+                        'transform': 'none',
+                        'transition': 'opacity 0.3s ease'
+                    });
+                    $container.addClass('isotope-ready');
+                    $loading.removeClass('show');
+                    
+                    // Override click handler
+                    $buttons.off('click').on('click', function() {
+                        var filterValue = $(this).attr('data-filter');
+                        $buttons.removeClass('active');
+                        $(this).addClass('active');
+                        fallbackFilter(filterValue);
+                    });
+                }
+                
+                function fallbackFilter(filterValue) {
+                    var filterClass = filterValue.replace('.', '');
+                    var visibleCount = 0;
+                    
+                    $items.each(function() {
+                        var $item = $(this);
+                        
+                        if (filterValue === '*' || $item.hasClass(filterClass)) {
+                            $item.css({
+                                'display': '',
+                                'opacity': '1',
+                                'visibility': 'visible',
+                                'position': 'relative',
+                                'left': 'auto',
+                                'top': 'auto'
+                            });
+                            visibleCount++;
+                        } else {
+                            $item.css({
+                                'opacity': '0',
+                                'visibility': 'hidden',
+                                'position': 'absolute'
+                            });
+                            setTimeout(function() { $item.hide(); }, 300);
+                        }
+                    });
+                    
+                    if (visibleCount === 0) {
+                        $noResults.addClass('show');
+                    } else {
+                        $noResults.removeClass('show');
+                    }
+                }
+                
+                // ============================================
+                // LIGHTBOX SETUP
+                // ============================================
+                
+                if (typeof lightbox !== 'undefined') {
+                    lightbox.option({
+                        resizeDuration: 200,
+                        wrapAround: true,
+                        albumLabel: 'Image %1 of %2',
+                        positionFromTop: 50
+                    });
+                }
+                
+                // ============================================
+                // IMAGE ERROR HANDLING
+                // ============================================
+                
+                var placeholder = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iI2YwZjBmMCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZSBOb3QgRm91bmQ8L3RleHQ+PC9zdmc+';
+                
+                $items.find('img').on('error', function() {
+                    $(this).attr('src', placeholder);
+                });
+                
+                // ============================================
+                // INITIALIZE
+                // ============================================
+                
+                initPortfolio();
+                
+            });
+            
+        })(jQuery);
+        </script>
+
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+    </body>
+</html>
